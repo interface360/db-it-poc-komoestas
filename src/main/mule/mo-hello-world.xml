@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config_8081" doc:name="HTTP Listener config" doc:id="eabb03f6-4188-42d3-a268-c30a0778fd31" >
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	<http:listener-config name="HTTP_Listener_config_8091" doc:name="HTTP Listener config" doc:id="5fb8c867-e26a-41ba-9b79-dbde22515924" >
+		<http:listener-connection host="0.0.0.0" port="${http.private.port}" />
+	</http:listener-config>
+	<global-property doc:name="Global Property" doc:id="1b1cc07a-4b96-4875-ac5d-4e46443cde83" name="http.port" value="8081" />
+	<global-property doc:name="Global Property" doc:id="1b1cc07a-4b96-4875-ac5d-4e46443cde83" name="http.private.port" value="8091" />
+	<flow name="mo-hello-worldFlow-8081" doc:id="28849371-eb0b-41ec-86c4-67799fcf7fc3" >
+		<http:listener doc:name="Listener" doc:id="47ca7ed4-9a6a-4a5b-aa72-833e93be3ea4" config-ref="HTTP_Listener_config_8081" path="/moHelloWorld8081"/>
+		<logger level="INFO" doc:name="Logger" doc:id="8678579c-2db1-490d-8dff-ea054164cb3c" message='#["\nRequest Path for port 8081: " ++ attributes.requestPath]'/>
+		<set-payload value="Hello World thru 8081" doc:name="Set Payload" doc:id="a3a2219f-5380-4c6c-9d06-a0fc05e7b95d" />
+	</flow>
+	<flow name="mo-hello-worldFlow-8091" doc:id="79b7e948-c6ce-4823-95b6-f6f341c60008" >
+		<http:listener doc:name="Listener" doc:id="a465de8b-6ec0-487e-8151-f1c842958e42" config-ref="HTTP_Listener_config_8091" path="/moHelloWorld8091"/>
+		<logger level="INFO" doc:name="Logger" doc:id="8d4d494b-093c-45d0-b94d-89c5d29c1fe0" message='#["\nRequest Path for port 8091: " ++ attributes.requestPath]'/>
+		<set-payload value="Hello World thru 8091" doc:name="Set Payload" doc:id="918176a2-9c6a-461f-9835-056cb206d92a" />
+	</flow>
+</mule>
